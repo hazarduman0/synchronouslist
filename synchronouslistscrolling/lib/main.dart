@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:synchronouslistscrolling/bindings/await_bindings.dart';
-import 'package:synchronouslistscrolling/ui/page/mainpage.dart';
+import 'package:synchronouslistscrolling/ui/screens/mainpage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

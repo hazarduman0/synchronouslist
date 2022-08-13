@@ -1,8 +1,8 @@
-class ListItem {
-  String name;
-  ListItem({required this.name});
+// class ListItem {
+//   String name;
+//   ListItem({required this.name});
 
-  factory ListItem.fromRTDB(Map<String, dynamic> data) {
-    return ListItem(name: data['name']);
-  }
-}
+//   factory ListItem.fromRTDB(Map<String, dynamic> data) {
+//     return ListItem(name: data['name']);
+//   }
+// }

@@ -2,32 +2,16 @@ import 'dart:developer';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
-import 'package:synchronouslistscrolling/model/listitem.dart';
 
 class ReorderableListViewController extends GetxController {
-  //DatabaseReference ref = FirebaseDatabase.instance.ref();
+
   final _database = FirebaseDatabase.instance.ref();
-  // RxList<ListItem> _artificialDatas = <ListItem>[
-  //   ListItem(name: 'hazar'),
-  //   ListItem(name: 'ilker'),
-  //   ListItem(name: 'özge'),
-  //   ListItem(name: 'eren'),
-  //   ListItem(name: 'cemil'),
-  //   ListItem(name: 'elif'),
-  //   ListItem(name: 'türkan'),
-  //   ListItem(name: 'yılmaz'),
-  //   ListItem(name: 'sibel'),
-  //   ListItem(name: 'kaan')
-  // ].obs;
-  RxString _string1 = ''.obs;
-  RxString _string2 = ''.obs;
+  
+  RxString _initialValue = ''.obs;
   RxList<String> _addedWords = <String>[].obs;
 
-  String get string1 => _string1.value;
-  String get string2 => _string2.value;
+  String get initialValue => _initialValue.value;
   List<String> get addedWords => _addedWords;
-  // List<ListItem> get artificialDatas => _artificialDatas;
-
   @override
   void onInit() {
     // TODO: implement onInit
@@ -35,71 +19,76 @@ class ReorderableListViewController extends GetxController {
     //getString();
   }
 
-  addTempStringList(String text){
+  setInitialValue(String text){
+    _initialValue.value = text;
+    update();
+  }
+
+  addTempStringList(String text) {
     _addedWords.add(text);
     update();
   }
 
-  resetTempStringList(){
+  resetTempStringList() {
     _addedWords.clear();
     update();
   }
 
-  reorderlist(int oldIndex, int newIndex) {
-    final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
-    // final person = _artificialDatas.removeAt(oldIndex);
-    // _artificialDatas.insert(index, person);
-    update();
+  reorderlist(
+      Map<String, dynamic> oldIndex, Map<String, dynamic> newIndex) async {
+    final o = oldIndex.values.toList().first;
+    final n = newIndex.values.toList().first;
+
+    final oldId = oldIndex.keys.toList().first;
+    final newId = newIndex.keys.toList().first;
+
+    //to list vermediğinde (.....) şeklinde veriyor
+    print('o: $o');
+    print('n: $n');
+
+
+    await _database
+        .child('itemList')
+        .child(newId.toString())
+        .update({'name': o['name']});
+
+    await _database
+        .child('itemList')
+        .child(oldId.toString())
+        .update({'name': n['name']});
+
+    // await updateItems(o, n, oldId, newId);
   }
 
-  Stream<List<ListItem>> getListItems() {
-    final itemStream = _database.child('itemList').onValue;
-    final itemGetStream = _database.child('itemList').get().asStream();
-    print('itemStream: ${itemStream}');
-    print('itemGetStream ${itemGetStream}');
-    final streamToPublish = itemStream.map((event) {
-      final itemMap = Map<String, dynamic>.from(
-          event.snapshot.value as Map<String, dynamic>);
-      final itemList = itemMap.entries.map((e) {
-        return ListItem.fromRTDB(Map<String, dynamic>.from(e.value));
-      }).toList();
-      return itemList;
-    });
-    return streamToPublish;
+  // Future<void> updateItems(dynamic o, dynamic n, String oldId, String newId) async{
+  //   await _database
+  //       .child('itemList')
+  //       .child(newId.toString())
+  //       .update({'name': o['name']});
+
+  //   await _database
+  //       .child('itemList')
+  //       .child(oldId.toString())
+  //       .update({'name': n['name']});
+  // }
+
+  Stream<DatabaseEvent> getDBevents() {
+    return _database.child('itemList').onValue;
+    //.orderByKey()
+    //.orderByChild('time')
   }
 
-  // getString() async {
-  //   final deneme = ref.child('deneme');
-  //   final str1 = await deneme.child('0/name').get();
-  //   final str2 = await deneme.child('1/name').get();
-  //   _string1.value = str1.value as String;
-  //   _string2.value = str2.value as String;
-  //   update();
-  //   final dnm = await deneme.get();
-  //   print('denemeKey: ${dnm.key}');
-  //   print('denemeValue: ${dnm.value}');
+  // Stream<List<ListItem>> getListItems() {
+  //   final itemStream = _database.child('itemList').onValue;
+  //   final streamToPublish = itemStream.map((event) {
+  //     final itemMap = Map<String, dynamic>.from(
+  //         event.snapshot.value as Map<String, dynamic>);
+  //     final itemList = itemMap.entries.map((e) {
+  //       return ListItem.fromRTDB(Map<String, dynamic>.from(e.value));
+  //     }).toList();
+  //     return itemList;
+  //   });
+  //   return streamToPublish;
   // }
-
-  // updateString() async {
-  //   final deneme = ref.child('deneme');
-  //   final o = await deneme.child('1/name').get();
-  //   final n = await deneme.child('0/name').get();
-  //   if (o.exists && n.exists) {
-  //     _string1.value = o.value as String;
-  //     _string2.value = n.value as String;
-  //     update();
-  //     deneme.child('0').update({'name': o.value});
-  //     deneme.child('1').update({'name': n.value});
-  //   } else {
-  //     log('data not available');
-  //   }
-  // }
-
-//    Stream _getData(){
-//   final deneme = ref.child('deneme');
-//   deneme.onValue.listen((event) {
-//     final String string = event.snapshot.;
-//    });
-// }
 
 }

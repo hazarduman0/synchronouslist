@@ -16,7 +16,6 @@ class ReorderableListViewController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    //getString();
   }
 
   setInitialValue(String text){
@@ -42,11 +41,6 @@ class ReorderableListViewController extends GetxController {
     final oldId = oldIndex.keys.toList().first;
     final newId = newIndex.keys.toList().first;
 
-    //to list vermediğinde (.....) şeklinde veriyor
-    print('o: $o');
-    print('n: $n');
-
-
     await _database
         .child('itemList')
         .child(newId.toString())
@@ -56,39 +50,11 @@ class ReorderableListViewController extends GetxController {
         .child('itemList')
         .child(oldId.toString())
         .update({'name': n['name']});
-
-    // await updateItems(o, n, oldId, newId);
   }
 
-  // Future<void> updateItems(dynamic o, dynamic n, String oldId, String newId) async{
-  //   await _database
-  //       .child('itemList')
-  //       .child(newId.toString())
-  //       .update({'name': o['name']});
 
-  //   await _database
-  //       .child('itemList')
-  //       .child(oldId.toString())
-  //       .update({'name': n['name']});
-  // }
 
   Stream<DatabaseEvent> getDBevents() {
     return _database.child('itemList').onValue;
-    //.orderByKey()
-    //.orderByChild('time')
   }
-
-  // Stream<List<ListItem>> getListItems() {
-  //   final itemStream = _database.child('itemList').onValue;
-  //   final streamToPublish = itemStream.map((event) {
-  //     final itemMap = Map<String, dynamic>.from(
-  //         event.snapshot.value as Map<String, dynamic>);
-  //     final itemList = itemMap.entries.map((e) {
-  //       return ListItem.fromRTDB(Map<String, dynamic>.from(e.value));
-  //     }).toList();
-  //     return itemList;
-  //   });
-  //   return streamToPublish;
-  // }
-
 }

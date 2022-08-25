@@ -51,9 +51,6 @@ class MainPage extends StatelessWidget {
                   if (allData != null) {
                     var keys = allData.keys.toList();
                     var values = allData.values.toList();
-                    // print('allData: ${allData}');
-                    // print('keys: ${keys}');
-                    // print('values: ${values}');
                     return SizedBox(
                       height: Get.height * 0.8,
                       width: Get.width,
@@ -62,12 +59,6 @@ class MainPage extends StatelessWidget {
                             parent: AlwaysScrollableScrollPhysics()),
                         itemCount: keys.length,
                         onReorder: (oldIndex, newIndex) {
-                          // print('keys[oldIndex].toString(): ${keys[oldIndex].toString()}');
-                          // print('values[oldIndex]: ${values[oldIndex]}');
-                          // print('keys[newIndex].toString(): ${keys[newIndex].toString()}');
-                          // print('values[newIndex]: ${values[newIndex]}');
-                          // print('oldIndex: $oldIndex');
-                          // print('newIndex: $newIndex');
                           final newIndx = newIndex > oldIndex ? newIndex - 1 : newIndex;
                           Map<String,dynamic> oldIndexMap = {keys[oldIndex].toString() : values[oldIndex]};
                           Map<String,dynamic> newIndexMap = {keys[newIndx].toString() : values[newIndx]};

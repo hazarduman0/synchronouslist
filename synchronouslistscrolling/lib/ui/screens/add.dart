@@ -55,9 +55,6 @@ class AddPage extends StatelessWidget {
                               _rc.addTempStringList(newValue!);
                               await _database.child('itemList').push().set({
                                 'name': newValue,
-                                // 'time': DateTime.now()
-                                //     .toIso8601String()
-                                //     .replaceAll('.', '')
                               });
                             },
                             decoration: const InputDecoration(

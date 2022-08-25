@@ -12,8 +12,8 @@ Future<void> main() async {
   
 
   // FirebaseDatabase.instance.setPersistenceEnabled(true);
-  // final scoresRef = FirebaseDatabase.instance.ref("scores");
-  // scoresRef.keepSynced(true);
+  // final ref = FirebaseDatabase.instance.ref("");
+  // ref.keepSynced(true);
   // FirebaseApp synchronouslis = Firebase.app('synchronouslis');
   // FirebaseDatabase database = FirebaseDatabase.instanceFor(app: synchronouslis);
   // database.setPersistenceEnabled(true);
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Synclist',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
